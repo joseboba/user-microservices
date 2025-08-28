@@ -21,7 +21,6 @@ export class UpdateRoleHandler implements ICommandHandler<UpdateRoleCommand> {
 
     const role = await this._roleRepository.findOneBy({
       roleCode,
-      isDeleted: false,
     });
 
     if (!role) {

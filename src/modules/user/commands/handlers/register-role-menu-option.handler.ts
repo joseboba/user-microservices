@@ -29,7 +29,6 @@ export class RegisterRoleMenuOptionHandler
 
     const role = await this._roleRepository.findOneBy({
       roleCode,
-      isDeleted: false,
     });
     if (!role) {
       this._logger.error(`Role code ${roleCode} does not exist`);
@@ -43,7 +42,6 @@ export class RegisterRoleMenuOptionHandler
 
     const menuOption = await this._menuOptionRepository.findOneBy({
       menuOptionCode,
-      isDeleted: false,
     });
     if (!menuOption) {
       this._logger.error(`Menu option ${menuOptionCode} does not exist`);

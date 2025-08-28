@@ -38,7 +38,6 @@ export class RegisterUserHandler
     this._logger.log('Validating exist userType', { userTypeCode });
     const userType = await this._userAppTypeRepository.findOneBy({
       userTypeCode,
-      isDeleted: false,
     });
 
     if (!userType) {

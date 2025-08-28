@@ -36,7 +36,6 @@ export class RegisterUserAppTypeHandler
 
     const role = await this._roleRepository.findOneBy({
       roleCode,
-      isDeleted: false,
     });
 
     if (!role) {

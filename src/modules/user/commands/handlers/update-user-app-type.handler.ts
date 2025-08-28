@@ -43,7 +43,6 @@ export class UpdateUserAppTypeHandler
 
     const role = await this._roleRepository.findOneBy({
       roleCode: updateUserAppTypeDto.roleCode,
-      isDeleted: false,
     });
 
     if (!role) {

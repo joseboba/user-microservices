@@ -52,7 +52,6 @@ export class UpdateUserHandler implements ICommandHandler<UpdateUserCommand> {
 
     const userType = await this._userAppTypeRepository.findOneBy({
       userTypeCode: updateUserAppDto.userTypeCode,
-      isDeleted: false,
     });
 
     if (!userType) {
