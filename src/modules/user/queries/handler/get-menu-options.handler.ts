@@ -4,6 +4,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { MenuOptionEntity } from '@entities';
 import { Repository } from 'typeorm';
 import { Logger } from '@nestjs/common';
+import { buildMenuTree } from '../../utilities';
 
 @QueryHandler(GetMenuOptionsQuery)
 export class GetMenuOptionsHandler
@@ -19,15 +20,9 @@ export class GetMenuOptionsHandler
   async execute(): Promise<MenuOptionEntity[]> {
     this._logger.log('Init command handler');
 
-    const result = await this._menuOptionsRepository
-      .createQueryBuilder('mo')
-      .leftJoinAndSelect('mo.children', 'child')
-      .where('mo.parent IS NULL')
-      .orderBy('mo.name', 'ASC')
-      .addOrderBy('child.name', 'ASC')
-      .getMany();
+    const result = await this._menuOptionsRepository.find();
 
     this._logger.log('List menu options successfully');
-    return result;
+    return buildMenuTree(result);
   }
 }

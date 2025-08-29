@@ -19,7 +19,8 @@
     "noFallthroughCasesInSwitch": false,
     "paths": {
       "@entities": ["src/modules/user/entities"],
-      "@dtos": ["src/modules/user/dtos"]
+      "@dtos": ["src/modules/user/dtos"],
+      "@utilities": ["src/modules/users/utilities"]
     }
   }
 }
