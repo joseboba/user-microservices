@@ -39,7 +39,7 @@ import {
 } from '@entities';
 import { Public } from 'incident-management-commons';
 import {
-  GetMenuOptionsQuery,
+  GetMenuOptionsQuery, GetMenuOptionsQueryByRole,
   GetRoleListQuery,
   GetUserAppTypeQuery,
 } from '../queries/impl';
@@ -146,6 +146,14 @@ export class UserController {
   @Public()
   async listMenuOptions(): Promise<MenuOptionEntity[]> {
     return this._queryBus.execute(new GetMenuOptionsQuery());
+  }
+
+  @Get('menu-options/:roleCode')
+  @Public()
+  async listMenuOptionsByRoleCode(
+    @Param('roleCode') roleCode: string,
+  ): Promise<MenuOptionEntity[]> {
+    return this._queryBus.execute(new GetMenuOptionsQueryByRole(roleCode));
   }
 
   @Delete('menu-options/:roleCode/:menuOptionCode')

@@ -21,14 +21,8 @@ export class GetMenuOptionsHandler
 
     const result = await this._menuOptionsRepository
       .createQueryBuilder('mo')
-      .leftJoinAndSelect(
-        'mo.children',
-        'child',
-        'child.isDeleted = :isDeleted',
-        { isDeleted: false },
-      )
+      .leftJoinAndSelect('mo.children', 'child')
       .where('mo.parent IS NULL')
-      .andWhere('mo.isDeleted = :isDeleted', { isDeleted: false })
       .orderBy('mo.name', 'ASC')
       .addOrderBy('child.name', 'ASC')
       .getMany();
