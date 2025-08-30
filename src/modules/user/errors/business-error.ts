@@ -81,4 +81,11 @@ export class BusinessErrors {
       'The role menu option assignment does not exist',
     );
   }
+
+  public static InvalidOldPassword() {
+    return new BusinessError(
+      'USER.InvalidOldPassword',
+      'Old password sent by user, is not valid',
+    );
+  }
 }

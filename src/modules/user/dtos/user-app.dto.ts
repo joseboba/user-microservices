@@ -19,7 +19,7 @@ export class UserAppDto {
   email: string;
 
   @IsString()
-  @MaxLength(75)
+  @MaxLength(50)
   @IsNotEmpty()
   @ApiProperty()
   password: string;

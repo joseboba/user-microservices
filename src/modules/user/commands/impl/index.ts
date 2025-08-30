@@ -4,6 +4,7 @@ export * from './delete-user-app-type.command';
 export * from './register-role.command';
 export * from './register-role-menu-options.command';
 export * from './register-user.command';
+export * from './update-password.command';
 export * from './register-user-app-type.command';
 export * from './update-role.command';
 export * from './update-user.command';

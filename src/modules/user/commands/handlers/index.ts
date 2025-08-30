@@ -8,6 +8,7 @@ import { DeleteRoleMenuOptionsHandler } from './delete-role-menu-options.handler
 import { UpdateUserAppTypeHandler } from './update-user-app-type.handler';
 import { DeleteRoleHandler } from './delete-role.handler';
 import { DeleteUserAppTypeHandler } from './delete-user-app-type.handler';
+import { UpdatePasswordHandler } from './update-password.handler';
 
 export const CommandHandlers = [
   DeleteRoleHandler,
@@ -17,6 +18,7 @@ export const CommandHandlers = [
   RegisterRoleHandler,
   RegisterRoleMenuOptionHandler,
   RegisterUserAppTypeHandler,
+  UpdatePasswordHandler,
   UpdateRoleHandler,
   UpdateUserHandler,
   UpdateUserAppTypeHandler,

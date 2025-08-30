@@ -5,6 +5,7 @@ import {
   Get,
   Param,
   ParseIntPipe,
+  Patch,
   Post,
   Put,
 } from '@nestjs/common';
@@ -26,6 +27,7 @@ import {
   RegisterRoleMenuOptionsCommand,
   RegisterUserAppTypeCommand,
   RegisterUserCommand,
+  UpdatePasswordCommand,
   UpdateRoleCommand,
   UpdateUserAppTypeCommand,
   UpdateUserCommand,
@@ -39,10 +41,12 @@ import {
 } from '@entities';
 import { Public } from 'incident-management-commons';
 import {
-  GetMenuOptionsQuery, GetMenuOptionsQueryByRole,
+  GetMenuOptionsQuery,
+  GetMenuOptionsQueryByRole,
   GetRoleListQuery,
   GetUserAppTypeQuery,
 } from '../queries/impl';
+import { UpdatePasswordDto } from '../dtos/update-password.dto';
 
 @Controller()
 export class UserController {
@@ -57,6 +61,21 @@ export class UserController {
     @Body() registerUserDto: UserAppDto,
   ): Promise<UserAppEntity> {
     return this._commandBus.execute(new RegisterUserCommand(registerUserDto));
+  }
+
+  @Patch(':email')
+  @Public()
+  async updatePassword(
+    @Param('email') email: string,
+    @Body() updatePasswordDto: UpdatePasswordDto,
+  ) {
+    await this._commandBus.execute(
+      new UpdatePasswordCommand(
+        email,
+        updatePasswordDto.password,
+        updatePasswordDto.oldPassword,
+      ),
+    );
   }
 
   @Put(':userAppId')
