@@ -39,7 +39,6 @@ import {
   UserAppEntity,
   UserAppTypeEntity,
 } from '@entities';
-import { Public } from 'incident-management-commons';
 import {
   GetMenuOptionsQuery,
   GetMenuOptionsQueryByRole,
@@ -56,7 +55,6 @@ export class UserController {
   ) {}
 
   @Post()
-  @Public()
   async registerUser(
     @Body() registerUserDto: UserAppDto,
   ): Promise<UserAppEntity> {
@@ -64,7 +62,6 @@ export class UserController {
   }
 
   @Patch(':email')
-  @Public()
   async updatePassword(
     @Param('email') email: string,
     @Body() updatePasswordDto: UpdatePasswordDto,
@@ -79,7 +76,6 @@ export class UserController {
   }
 
   @Put(':userAppId')
-  @Public()
   async updateUser(
     @Body() updateUserDto: UpdateUserAppDto,
     @Param('userAppId', ParseIntPipe) userAppId: number,
@@ -90,19 +86,16 @@ export class UserController {
   }
 
   @Post('role')
-  @Public()
   async registerRole(@Body() registerRoleDto: RoleDto): Promise<RoleEntity> {
     return this._commandBus.execute(new RegisterRoleCommand(registerRoleDto));
   }
 
   @Delete('role/:roleCode')
-  @Public()
   async deleteRole(@Param('roleCode') roleCode: string) {
     await this._commandBus.execute(new DeleteRoleCommand(roleCode));
   }
 
   @Put('role/:roleCode')
-  @Public()
   async updateRole(
     @Body() updateRoleDto: UpdateRoleDto,
     @Param('roleCode') roleCode: string,
@@ -113,13 +106,11 @@ export class UserController {
   }
 
   @Get('role-all')
-  @Public()
   async listAllRole(): Promise<RoleEntity[]> {
     return this._queryBus.execute(new GetRoleListQuery());
   }
 
   @Post('type')
-  @Public()
   async registerUserType(
     @Body() registerUserType: UserAppTypeDto,
   ): Promise<UserAppTypeEntity> {
@@ -129,19 +120,16 @@ export class UserController {
   }
 
   @Get('type-all')
-  @Public()
   async listAllUserType(): Promise<UserAppTypeEntity[]> {
     return this._queryBus.execute(new GetUserAppTypeQuery());
   }
 
   @Delete('type/:typeCode')
-  @Public()
   async deleteUserType(@Param('typeCode') typeCode: string) {
     await this._commandBus.execute(new DeleteUserAppTypeCommand(typeCode));
   }
 
   @Put('type/:typeCode')
-  @Public()
   async updateUserType(
     @Body() updateUserAppTypeDto: UpdateUserAppTypeDto,
     @Param('typeCode') typeCode: string,
@@ -152,7 +140,6 @@ export class UserController {
   }
 
   @Post('role-menu-option')
-  @Public()
   async registerRoleMenuOption(
     @Body() registerRoleMenuOption: RoleMenuOptionDto,
   ): Promise<RoleMenuOptionEntity> {
@@ -162,13 +149,11 @@ export class UserController {
   }
 
   @Get('menu-options')
-  @Public()
   async listMenuOptions(): Promise<MenuOptionEntity[]> {
     return this._queryBus.execute(new GetMenuOptionsQuery());
   }
 
   @Get('menu-options/:roleCode')
-  @Public()
   async listMenuOptionsByRoleCode(
     @Param('roleCode') roleCode: string,
   ): Promise<MenuOptionEntity[]> {
@@ -176,7 +161,6 @@ export class UserController {
   }
 
   @Delete('menu-options/:roleCode/:menuOptionCode')
-  @Public()
   async deleteRoleMenuOption(
     @Param('roleCode') roleCode: string,
     @Param('menuOptionCode') menuOptionCode: string,
