@@ -32,10 +32,6 @@ export class UpdateUserAppTypeHandler
       throw BusinessErrors.UserTypeCodeDoesNotExist(userTypeCode);
     }
 
-    if (!userType.isActive) {
-      throw BusinessErrors.UserTypeIsNotActive();
-    }
-
     Object.assign(userType, updateUserAppTypeDto);
     if (userType.role.roleCode === updateUserAppTypeDto.roleCode) {
       return this._userAppTypeRepository.save(userType);

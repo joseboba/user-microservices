@@ -27,10 +27,6 @@ export class UpdateRoleHandler implements ICommandHandler<UpdateRoleCommand> {
       throw BusinessErrors.RoleDoesNotExist(roleCode);
     }
 
-    if (!role.isActive) {
-      throw BusinessErrors.RoleIsInactive();
-    }
-
     Object.assign(role, updateRoleDto);
     return this._roleRepository.save(role);
   }
