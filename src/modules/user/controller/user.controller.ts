@@ -44,6 +44,7 @@ import {
   GetMenuOptionsQueryByRole,
   GetRoleListQuery,
   GetUserAppTypeQuery,
+  GetUserTypeByUserTypeCodeQuery,
 } from '../queries/impl';
 import { UpdatePasswordDto } from '../dtos/update-password.dto';
 
@@ -122,6 +123,13 @@ export class UserController {
   @Get('type-all')
   async listAllUserType(): Promise<UserAppTypeEntity[]> {
     return this._queryBus.execute(new GetUserAppTypeQuery());
+  }
+
+  @Get('type/:typeCode')
+  async getTypeByUserTypeCode(
+    @Param('typeCode') typeCode: string,
+  ): Promise<UserAppTypeEntity> {
+    return this._queryBus.execute(new GetUserTypeByUserTypeCodeQuery(typeCode));
   }
 
   @Delete('type/:typeCode')
