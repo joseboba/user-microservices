@@ -57,6 +57,35 @@ export class UserController {
     private readonly _queryBus: QueryBus,
   ) {}
 
+  @Get('menu-options')
+  async listMenuOptions(): Promise<MenuOptionEntity[]> {
+    return this._queryBus.execute(new GetMenuOptionsQuery());
+  }
+
+  @Get('menu-options/:roleCode')
+  async listMenuOptionsByRoleCode(
+    @Param('roleCode') roleCode: string,
+  ): Promise<MenuOptionEntity[]> {
+    return this._queryBus.execute(new GetMenuOptionsQueryByRole(roleCode));
+  }
+
+  @Get('role-all')
+  async listAllRole(): Promise<RoleEntity[]> {
+    return this._queryBus.execute(new GetRoleListQuery());
+  }
+
+  @Get('type-all')
+  async listAllUserType(): Promise<UserAppTypeEntity[]> {
+    return this._queryBus.execute(new GetUserAppTypeQuery());
+  }
+
+  @Get('type/:typeCode')
+  async getTypeByUserTypeCode(
+    @Param('typeCode') typeCode: string,
+  ): Promise<UserAppTypeEntity> {
+    return this._queryBus.execute(new GetUserTypeByUserTypeCodeQuery(typeCode));
+  }
+
   @Get(':email')
   @Public()
   async getUserAppByEmail(
@@ -116,11 +145,6 @@ export class UserController {
     );
   }
 
-  @Get('role-all')
-  async listAllRole(): Promise<RoleEntity[]> {
-    return this._queryBus.execute(new GetRoleListQuery());
-  }
-
   @Post('type')
   async registerUserType(
     @Body() registerUserType: UserAppTypeDto,
@@ -128,18 +152,6 @@ export class UserController {
     return this._commandBus.execute(
       new RegisterUserAppTypeCommand(registerUserType),
     );
-  }
-
-  @Get('type-all')
-  async listAllUserType(): Promise<UserAppTypeEntity[]> {
-    return this._queryBus.execute(new GetUserAppTypeQuery());
-  }
-
-  @Get('type/:typeCode')
-  async getTypeByUserTypeCode(
-    @Param('typeCode') typeCode: string,
-  ): Promise<UserAppTypeEntity> {
-    return this._queryBus.execute(new GetUserTypeByUserTypeCodeQuery(typeCode));
   }
 
   @Delete('type/:typeCode')
@@ -164,18 +176,6 @@ export class UserController {
     return this._commandBus.execute(
       new RegisterRoleMenuOptionsCommand(registerRoleMenuOption),
     );
-  }
-
-  @Get('menu-options')
-  async listMenuOptions(): Promise<MenuOptionEntity[]> {
-    return this._queryBus.execute(new GetMenuOptionsQuery());
-  }
-
-  @Get('menu-options/:roleCode')
-  async listMenuOptionsByRoleCode(
-    @Param('roleCode') roleCode: string,
-  ): Promise<MenuOptionEntity[]> {
-    return this._queryBus.execute(new GetMenuOptionsQueryByRole(roleCode));
   }
 
   @Delete('menu-options/:roleCode/:menuOptionCode')
