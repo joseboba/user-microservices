@@ -44,9 +44,11 @@ import {
   GetMenuOptionsQueryByRole,
   GetRoleListQuery,
   GetUserAppTypeQuery,
+  GetUserByEmailQuery,
   GetUserTypeByUserTypeCodeQuery,
 } from '../queries/impl';
 import { UpdatePasswordDto } from '../dtos/update-password.dto';
+import { Public } from 'incident-management-commons';
 
 @Controller()
 export class UserController {
@@ -54,6 +56,14 @@ export class UserController {
     private readonly _commandBus: CommandBus,
     private readonly _queryBus: QueryBus,
   ) {}
+
+  @Get(':email')
+  @Public()
+  async getUserAppByEmail(
+    @Param('email') email: string,
+  ): Promise<UserAppEntity> {
+    return this._queryBus.execute(new GetUserByEmailQuery(email));
+  }
 
   @Post()
   async registerUser(
