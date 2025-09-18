@@ -21,6 +21,12 @@ export class UserAppTypeEntity extends BaseEntity {
   @Column({ name: 'description', type: 'varchar', length: 50 })
   description: string;
 
+  @Column({ name: 'is_admin' })
+  isAdmin: boolean;
+
+  @Column({ name: 'is_technical' })
+  isTechnical: boolean;
+
   @ManyToOne(() => RoleEntity, (role) => role.userAppTypes)
   @JoinColumn({ name: 'role_code' })
   role: RoleEntity;

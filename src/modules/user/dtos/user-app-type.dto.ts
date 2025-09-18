@@ -1,5 +1,6 @@
-import { IsNotEmpty, IsString, MaxLength } from 'class-validator';
+import { IsBoolean, IsNotEmpty, IsString, MaxLength } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
+import { Type } from 'class-transformer';
 
 export class UserAppTypeDto {
   @IsNotEmpty()
@@ -25,4 +26,14 @@ export class UserAppTypeDto {
   @MaxLength(10)
   @ApiProperty()
   roleCode: string;
+
+  @IsBoolean()
+  @Type(() => Boolean)
+  @ApiProperty()
+  isAdmin: boolean;
+
+  @IsBoolean()
+  @Type(() => Boolean)
+  @ApiProperty()
+  isTechnical: boolean;
 }

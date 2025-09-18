@@ -81,7 +81,7 @@ export class UserController {
 
   @Get('type/:typeCode')
   async getTypeByUserTypeCode(
-    @Param('typeCode') typeCode: string,
+    @Param('typeCode') typeCode: string,q 
   ): Promise<UserAppTypeEntity> {
     return this._queryBus.execute(new GetUserTypeByUserTypeCodeQuery(typeCode));
   }
