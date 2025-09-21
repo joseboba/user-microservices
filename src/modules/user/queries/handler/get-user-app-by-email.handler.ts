@@ -17,8 +17,9 @@ export class GetUserAppByEmailHandler
   async execute(query: GetUserByEmailQuery): Promise<UserAppEntity> {
     const { email } = query;
 
-    const userApp = await this._userAppRepository.findOneBy({
-      email,
+    const userApp = await this._userAppRepository.findOne({
+      where: { email },
+      relations: { userType: true },
     });
 
     if (!userApp) {
