@@ -88,4 +88,8 @@ export class BusinessErrors {
       'Old password sent by user, is not valid',
     );
   }
+
+  public static UserIsNotAdmin() {
+    return new BusinessError('USER.UserIsNotAdmin', 'User is not admin');
+  }
 }

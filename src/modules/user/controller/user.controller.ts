@@ -8,6 +8,7 @@ import {
   Patch,
   Post,
   Put,
+  Query,
 } from '@nestjs/common';
 import {
   RoleDto,
@@ -45,10 +46,12 @@ import {
   GetRoleListQuery,
   GetUserAppTypeQuery,
   GetUserByEmailQuery,
+  GetUsersAppQuery,
   GetUserTypeByUserTypeCodeQuery,
 } from '../queries/impl';
 import { UpdatePasswordDto } from '../dtos/update-password.dto';
-import { Public } from 'incident-management-commons';
+import { BaseJwtPayload, GetUser, Public } from 'incident-management-commons';
+import { ApiQuery } from '@nestjs/swagger';
 
 @Controller()
 export class UserController {
@@ -56,6 +59,15 @@ export class UserController {
     private readonly _commandBus: CommandBus,
     private readonly _queryBus: QueryBus,
   ) {}
+
+  @ApiQuery({ name: 'search', required: false, type: String })
+  @Get()
+  async listUserApp(
+    @GetUser() user: BaseJwtPayload,
+    @Query('search') search?: string,
+  ): Promise<UserAppEntity[]> {
+    return this._queryBus.execute(new GetUsersAppQuery(user, search));
+  }
 
   @Get('menu-options')
   async listMenuOptions(): Promise<MenuOptionEntity[]> {
@@ -81,7 +93,8 @@ export class UserController {
 
   @Get('type/:typeCode')
   async getTypeByUserTypeCode(
-    @Param('typeCode') typeCode: string,q 
+    @Param('typeCode') typeCode: string,
+    q,
   ): Promise<UserAppTypeEntity> {
     return this._queryBus.execute(new GetUserTypeByUserTypeCodeQuery(typeCode));
   }
