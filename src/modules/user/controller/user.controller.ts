@@ -44,6 +44,7 @@ import {
   GetMenuOptionsQuery,
   GetMenuOptionsQueryByRole,
   GetRoleListQuery,
+  GetUserAppByIdQuery,
   GetUserAppTypeQuery,
   GetUserByEmailQuery,
   GetUsersAppQuery,
@@ -61,12 +62,18 @@ export class UserController {
   ) {}
 
   @ApiQuery({ name: 'search', required: false, type: String })
+  @ApiQuery({ name: 'isAdmin', required: false, type: Boolean })
+  @ApiQuery({ name: 'isTechnician', required: false, type: Boolean })
   @Get()
   async listUserApp(
     @GetUser() user: BaseJwtPayload,
     @Query('search') search?: string,
+    @Query('isAdmin') isAdmin?: boolean,
+    @Query('isTechnician') isTechnician?: boolean,
   ): Promise<UserAppEntity[]> {
-    return this._queryBus.execute(new GetUsersAppQuery(user, search));
+    return this._queryBus.execute(
+      new GetUsersAppQuery(user, isAdmin, isTechnician, search),
+    );
   }
 
   @Get('menu-options')
@@ -94,9 +101,16 @@ export class UserController {
   @Get('type/:typeCode')
   async getTypeByUserTypeCode(
     @Param('typeCode') typeCode: string,
-    q,
   ): Promise<UserAppTypeEntity> {
     return this._queryBus.execute(new GetUserTypeByUserTypeCodeQuery(typeCode));
+  }
+
+  @Get('by-id/:userAppId')
+  @Public()
+  async getUserAppById(
+    @Param('userAppId') userAppId: number,
+  ): Promise<UserAppEntity> {
+    return this._queryBus.execute(new GetUserAppByIdQuery(userAppId));
   }
 
   @Get(':email')
