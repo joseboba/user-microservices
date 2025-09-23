@@ -13,35 +13,29 @@ export class GetUsersAppHandler implements IQueryHandler<GetUsersAppQuery> {
   ) {}
 
   async execute(query: GetUsersAppQuery): Promise<UserAppEntity[]> {
-    const { user, search, isAdmin = null, isTechnician = null } = query;
+      const { user, search, isAdmin, isTechnician } = query;
 
-    if (!user.isAdmin) {
-      throw BusinessErrors.UserIsNotAdmin();
-    }
+      if (!user.isAdmin) {
+        throw BusinessErrors.UserIsNotAdmin();
+      }
 
-    const all = !isAdmin && !isTechnician;
+      const qb = this._userAppRepository
+        .createQueryBuilder('u')
+        .leftJoin('u.userType', 'ut');
 
-    const qb = this._userAppRepository
-      .createQueryBuilder('u')
-      .leftJoin('u.userType', 'ut');
+      if (isAdmin !== undefined) {
+        qb.andWhere('ut.isAdmin = :isAdmin', { isAdmin });
+      }
+      if (isTechnician !== undefined) {
+        qb.andWhere('ut.isTechnical = :isTechnician', { isTechnician });
+      }
 
-    if (!all) {
-      qb.andWhere('(:isAdmin::boolean is null or ut.isAdmin = :isAdmin)', {
-        isAdmin,
-      }).andWhere(
-        '(:isTechnician::boolean is null or ut.isTechnical = :isTechnician)',
-        {
-          isTechnician,
-        },
-      );
-    }
+      if (search !== undefined && String(search).trim() !== '') {
+        qb.andWhere('(u.name ILIKE :search OR u.email ILIKE :search)', {
+          search: `%${search}%`,
+        });
+      }
 
-    if (search !== undefined && String(search).trim() !== '') {
-      qb.andWhere('(u.name ILIKE :search OR u.email ILIKE :search)', {
-        search: `%${search}%`,
-      });
-    }
-
-    return await qb.getMany();
+      return await qb.getMany();
   }
 }
